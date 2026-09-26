@@ -264,7 +264,7 @@ async def refresh_access_token(
     result_token = await db.execute(stmt_token)
     token_record = result_token.scalars().first()
 
-    if token_record is None:
+    if token_record is None or token_record.user_id != user_id:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Refresh token not found.",
